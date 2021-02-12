@@ -6,7 +6,7 @@
 **/.terraform/*
 
 #connection string
-
+provider.tf
 .DS_Store
 .idea/
 
