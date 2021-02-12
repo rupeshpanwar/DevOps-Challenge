@@ -11,6 +11,13 @@ resource "aws_security_group" "elb_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow web traffic to load balancer"
   }
+  ingress {
+    from_port = 22
+    protocol = "tcp"
+    to_port = 22
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow sshing.."
+  }
 
   egress {
     from_port = 0

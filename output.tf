@@ -13,3 +13,7 @@ output "public_subnet_id_4" {
   value = aws_subnet.public_subnets[3].id
 }
 
+output "alb_dns" {
+  value = aws_alb.Application_load_balancer.dns_name
+}
+
