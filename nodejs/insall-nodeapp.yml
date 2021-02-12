@@ -1,0 +1,52 @@
+---
+- name: Install and Launch the Application
+  hosts: all
+  vars_files:
+    - /etc/ec2-user/secrets.yml
+  vars:
+    - destdir: /apps/NodeApp
+  tasks:
+
+    - name: Download from the GitRepo
+      become: yes
+      git:
+        repo: 'https://{{gituser}}:{{gitpass}}@github.com/rupeshpanwar/Chat-App-using-Socket.io.git'
+        dest: "{{ destdir }}"
+
+    - name: Change the ownership of the directory
+      become: yes
+      file:
+        path: /var/www/nodejs
+        state: directory
+        mode: "u=rw,g=wx,o=rwx"
+
+
+    - name: Install Dependencies with NPM install command
+      shell:
+        "npm install"
+      args:
+        chdir: "{{ destdir }}"
+      register: npminstlout
+
+    - name: Debug npm install command
+      debug: msg='{{npminstlout.stdout_lines}}'
+
+
+    - name: Start the App
+      async: 10
+      poll: 0
+      shell:
+        "(node app.js > nodesrv.log 2>&1 &)"
+      args:
+        chdir: "{{ destdir }}"
+      register: appstart
+
+    - name: Validating the port is open
+      tags: nodevalidate
+      wait_for:
+        host: "localhost"
+        port: 5000
+        delay: 10
+        timeout: 30
+        state: started
+        msg: "NodeJS server is not running"

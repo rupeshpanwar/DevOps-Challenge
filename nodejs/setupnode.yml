@@ -1,0 +1,18 @@
+---
+- hosts: all
+  name: test installing git
+  become: yes
+  remote_user: ec2-user
+
+  tasks:
+    - name: nvm
+      shell: >
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+      args:
+        creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+
+
+    - script: /home/ec2-user/script/setup.sh --creates /home/ec2-user/installed-git.txt
+      register: output
+
+    - debug: var=output.stdout_lines
