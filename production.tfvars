@@ -4,4 +4,5 @@ public_subnet_names=["public_subnet_1a_1","public_subnet_1b_1","public_subnet_1a
 public_subnet_cidr=["10.0.1.0/24","10.0.3.0/24","10.0.2.0/24","10.0.4.0/24"]
 
 instance_type  = "t2.micro"
-
+max_instance_size = "6"
+min_instance_size = "4"

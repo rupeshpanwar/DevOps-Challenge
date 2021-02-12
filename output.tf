@@ -14,6 +14,6 @@ output "public_subnet_id_4" {
 }
 
 output "alb_dns" {
-  value = aws_alb.Application_load_balancer.dns_name
+  value = aws_elb.webapp_load_balancer.dns_name
 }
 
